@@ -1,0 +1,38 @@
+name: Deploy (Hostinger)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_PUBLIC_BASE_URL: ${{ secrets.VITE_PUBLIC_BASE_URL }}
+
+      # Envia o conteúdo de dist/ para a pasta do domínio na Hostinger via FTP
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}       # ex.: ftp.institutohernandes.org
+          username: ${{ secrets.FTP_USERNAME }}   # usuário FTP criado no hPanel
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}  # ex.: /public_html/  (ou /domains/vendas.institutohernandes.org/public_html/)
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
