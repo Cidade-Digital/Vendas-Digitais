@@ -27,9 +27,11 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}       # ex.: ftp.institutohernandes.org
-          username: ${{ secrets.FTP_USERNAME }}   # usuário FTP criado no hPanel
+          server: ${{ secrets.FTP_SERVER }}       # hostname OU IP do hPanel > Contas FTP
+          username: ${{ secrets.FTP_USERNAME }}   # usuário FTP COMPLETO (ex.: u123456789.vendas)
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps                          # Hostinger usa FTP sobre TLS
+          port: 21
           local-dir: ./dist/
           server-dir: ${{ secrets.FTP_REMOTE_DIR }}  # ex.: /public_html/  (ou /domains/vendas.institutohernandes.org/public_html/)
           dangerous-clean-slate: false
