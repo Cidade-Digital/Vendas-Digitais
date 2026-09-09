@@ -6,11 +6,11 @@
 # SPA: qualquer rota que não seja arquivo/pasta real cai no index.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
+  RewriteBase /vendas/
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule . /vendas/index.html [L]
 </IfModule>
 
 # Força HTTPS

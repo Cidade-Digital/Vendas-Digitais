@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// base: "/" => publicado na raiz do domínio (ex.: https://vendas.institutohernandes.org/)
-// Se publicar numa subpasta (ex.: institutohernandes.org/vendas/), troque para "/vendas/".
+// Publicado em institutohernandes.org/vendas/ (subpasta public_html/vendas).
+// Se um dia mudar para domínio/subdomínio na raiz, volte base para "/".
 export default defineConfig({
-  base: "/",
+  base: "/vendas/",
   plugins: [react()],
   build: {
     outDir: "dist",
